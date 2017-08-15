@@ -1,4 +1,4 @@
-var cookie = {
+module.exports = {
     getCookiesObj: function () {
         var cookies = {};
         if (document.cookie) {

@@ -1,3 +1,6 @@
+module.exports=ajax;
+
+
 function ajax() {
     var ajaxData = {
         type: arguments[0].type || "GET",
