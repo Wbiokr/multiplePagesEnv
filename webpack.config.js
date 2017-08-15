@@ -31,7 +31,7 @@ module.exports = {
             'vue': 'vue/dist/vue.js'
         }
     },
-    // devtool: "#cheap-module-source-map",
+    devtool: "#cheap-module-source-map",
     // progress:true,
     module: {
         rules: [
@@ -54,7 +54,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                // enforce:'pre',
+                enforce: 'pre',
                 include: resolve('src'),
                 exclude: ['node_modules/'],
                 query: {
@@ -109,7 +109,7 @@ module.exports = {
             name: 'vendors',//公共模块提取，什么名为vendors的js
             minChunks: Infinity,
             // chunks: ['home', 'list', 'about'],//提取哪些模块共有的部分
-            // minChunks: 3,//至少三个模块共有部分，才会进行提取
+            minChunks: 3,//至少三个模块共有部分，才会进行提取
             // publicPath:'./dist/static'
         }),
         new ExtractTextPlugin({
@@ -182,6 +182,15 @@ if (prod) {
     module.exports.devtool = '#source-map'
     module.exports.plugins = (module.exports.plugins || []).concat([
         new CleanWebpackPlugin('./dist'),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
     ])
 }
 
