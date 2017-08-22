@@ -1,0 +1,63 @@
+/***************自定义变量：颜色、长度、等**********/ 
+$grey999:#999;
+$grey666:#666;
+$grey333:#333;
+$greyccc:#ccc;
+$bgFFF:#fff;
+$bg000:#000;
+
+$baseFont:750px;
+
+/************自定义函数(常用函数)**************/
+/*px转rem：参数---标准模式下的px值*/
+@function px2rem($px,$base:$baseFont){
+    @return $px/$base*1rem ;
+}
+
+/*颜色边框：参数颜色、宽度、类型*/
+@mixin border( $width:1px,$type:solid,$color:#000){
+    border:$width $type $color;
+}
+
+/*圆角函数：参数--圆角度数*/
+@mixin border-radius($radius:50%){
+    border-radius: 50%;
+}
+
+/*块元素自适应居中(上下、左右;父元素需要相对定位)：无需参数*/
+@mixin autoCenter(){
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+/*清除浮动函数：无需参数*/
+@mixin clearfix(){
+    *zoom: 1; 
+    &:before,
+    &:after{
+       content:'';
+       line-height: 0;
+       display: table;
+    }
+    &:after{
+        clear:both;
+    }
+}
+
+/*省略号：参数---元素宽度*/
+%ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+@mixin ellipsis($width:100%){
+    width: $width;
+    @extend %ellipsis;
+}
+
+@mixin heightLine($height,$line:$height){
+    height: $height;
+    line-height: $line;
+}

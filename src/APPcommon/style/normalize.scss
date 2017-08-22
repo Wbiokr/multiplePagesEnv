@@ -1,0 +1,132 @@
+@import './mixin.scss';
+
+/*reset css---常见元素重置样式*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    // font-family: 'Droid Sans','PingFang SC','Microsoft Yahei','SimSun',"Times New Roman"
+    font: 12px/1.5 tahoma,arial,'Hiragino Sans GB','\5b8b\4f53',sans-serif;
+    
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{
+    text-decoration: none;
+    &:hover{
+        text-decoration: none;
+        color:#f00;
+    }
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: 600;
+    color:1rem;
+}
+audio,
+video,canvas {
+  display: inline-block;
+}
+img {
+  border-style: none;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/*--------function css---项目常用功能性css-----------*/
+
+//万能清除浮动
+.clearfix{
+    @include clearfix();
+}
+//左右浮动
+.f-fl{
+    float: left;
+}
+.f-fr{
+    float: right;
+}
+
+//定位
+.f-pr{
+    position: relative;
+}
+.f-ps{
+    position: absolute;
+}
+
+//自适应上下左右居中
+.f-cm{
+    @include autoCenter();
+}
+
+//常用属性
+.f-dn{
+    display: none;
+}
+.f-di{
+    display: inline;
+}
+.f-dib{
+    display: inline-block;
+}
+.f-oh{
+    overflow: hidden;
+}
+.f-oa{
+    overflow: auto;
+}
+.f-ov{
+    overflow: visible;
+}
+
+/*列表浮动，容器ul清除浮动*/
+.f-ul{
+    @include clearfix();
+    &>li,&>a{
+        float: left;
+
+    }
+}
+
+
+
+

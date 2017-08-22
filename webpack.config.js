@@ -12,14 +12,22 @@ var prod = process.env.NODE_ENV === 'production' ? true : false;
 let hostName, devPort;
 
 //可以设置自己电脑IP或者其他
-hostName = "";
-devPort = "";
-let devUrl = "http://localhost:8088/"
+// hostName = "127.0.0.1";
+hostName = "192.168.1.83";//陈博先电脑ip
+devPort = "8088";
 
+let entryObj = getEntry();
 
+let pageNameList = Object.keys(entryObj);
+
+let proHtmlPlugin = [];
+
+for (let i = 0; i < pageNameList.length; i++) {
+    proHtmlPlugin.push(getHtmlPlugin(pageNameList[i]))
+}
 
 module.exports = {
-    entry: getEntry(),
+    entry: entryObj,
     output: {
         path: resolve('./dist'),//输出目录的配置，js,css,img,html等存放目录
         publicPath: prod ? '../' : '/dist/',//js,css,img等资源对应的server目录
@@ -28,10 +36,11 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue': 'vue/dist/vue.js'
+            'vue': 'vue/dist/vue.js',
+            'common':resolve('./src/APPcommon')
         }
     },
-    devtool: "#cheap-module-source-map",
+    // devtool: "#cheap-module-source-map",
     // progress:true,
     module: {
         rules: [
@@ -65,14 +74,14 @@ module.exports = {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
+                    use: ['css-loader','postcss-loader', 'sass-loader']
                 })
             },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: 'css-loader'
+                    use: ['css-loader','postcss-loader']
                 })
             },
             {
@@ -109,7 +118,7 @@ module.exports = {
             name: 'vendors',//公共模块提取，什么名为vendors的js
             minChunks: Infinity,
             // chunks: ['home', 'list', 'about'],//提取哪些模块共有的部分
-            minChunks: 3,//至少三个模块共有部分，才会进行提取
+            minChunks: pageNameList.length,//至少三个模块共有部分，才会进行提取
             // publicPath:'./dist/static'
         }),
         new ExtractTextPlugin({
@@ -117,46 +126,8 @@ module.exports = {
             allChunks: true,
 
         }),
-
-        // new UglifyJsPlugin({
-        //     sourceMap:true
-        // // }),
-        new HtmlWebpackPlugin({
-            // favicon: resolve('../src/APPcommon/img/fav.png'),
-            filename: 'views/home.html',
-            template: './config/index.html',
-            inject: 'body',
-            chunks: ['vendors', 'home'],
-            minify: {
-                removeAttributeQuotes: true,
-                collapseWhitespace: true
-            }
-        }),
-        new HtmlWebpackPlugin({
-            // favicon: resolve('../src/APPcommon/img/fav.png'),
-            filename: 'views/list.html',
-            template: './config/index.html',
-            inject: 'body',
-            chunks: ['vendors', 'list'],
-            minify: {
-                removeAttributeQuotes: true,
-                collapseWhitespace: true
-            }
-        }),
-        new HtmlWebpackPlugin({
-            // favicon: resolve('../src/APPcommon/img/fav.png'),
-            filename: 'views/about.html',
-            template: './config/index.html',
-            inject: 'body',
-            chunks: ['vendors', 'about'],
-            minify: {
-                removeAttributeQuotes: true,
-                collapseWhitespace: true
-            }
-        }),
-
         new OpenBrowserPlugin({
-            url: 'http://localhost:9000/dist/views/home.html',//试验品，设置为home页面，开发时候，可以设置为自己正在开发页面
+            url: 'http://' + hostName + ':' + devPort + '/dist/views/test.html',//测试页面选择test.html，可以自己更改
         }),
         //热替换
         new webpack.HotModuleReplacementPlugin(),
@@ -166,8 +137,8 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         compress: true,
-        port: 9000,
-        host: '127.0.0.1',
+        port: devPort,
+        host: hostName,
         inline: true,
         hot: true,
         noInfo: true,
@@ -178,12 +149,14 @@ module.exports = {
     },
 };
 
+module.exports.plugins = (module.exports.plugins || []).concat(proHtmlPlugin);
+
 if (prod) {
     module.exports.devtool = '#source-map'
     module.exports.plugins = (module.exports.plugins || []).concat([
         new CleanWebpackPlugin('./dist'),
         new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
+            // sourceMap: true,
             compress: {
                 warnings: false
             }
@@ -192,7 +165,7 @@ if (prod) {
             minimize: true
         })
     ])
-}
+};
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -215,3 +188,18 @@ function getEntry() {
         });
     return entry;
 };
+
+function getHtmlPlugin(name) {
+    return (new HtmlWebpackPlugin({
+        // favicon: resolve('../src/APPcommon/img/fav.png'),
+        filename: 'views/' + name + '.html',
+        template: './src/APPcommon/view/index.html',
+        inject: 'body',
+        chunks: ['vendors', name],
+        minify: {
+            removeAttributeQuotes: true,
+            collapseWhitespace: true
+        }
+    })
+    )
+}

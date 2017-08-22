@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一鼎网</title>
+    <script type="text/javascript">
+        var scale = window.screen.width / 750;
+        document.write('<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=' + scale + ', minimum-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no"/>');
+        (function () {
+            var docEl = document.documentElement;
+            var dpr = window.devicePixelRatio || 1;
+            var rem = docEl.clientWidth * dpr / 10;
+            var scale = 1 / dpr;
+            docEl.style.fontSize = rem * scale + 'px';
+        })();
+    </script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+</html>

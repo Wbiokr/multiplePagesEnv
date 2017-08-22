@@ -1,0 +1,25 @@
+
+body{
+    font-size: 20px;
+    p{
+        background: #999;
+    }
+    background: #fff;
+}
+section{
+    border:1px solid #f00;
+}
+.abc{
+    background: #f00;
+    color:#fff;
+    display: flex;
+    transform: translate(-50%);
+}
+@keyframes move{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
