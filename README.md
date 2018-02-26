@@ -1,3 +1,5 @@
+## 0.提示 ##
+   webpack构建vue多页面应用配置2.0版本，请进入https://github.com/Wbiokr/my-vue-cli
 ## 1.命令 ##
 - 安装依赖：cnpm install;
 - 开发模式：npm run dev;
